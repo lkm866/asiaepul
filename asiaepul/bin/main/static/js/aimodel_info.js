@@ -11,21 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error_model names:', error));
 });
 
-async function updateChartData(modelName) {
-    const url = `http://localhost:8000/prediction11/${modelName}`; // 모델 이름에 따른 URL
-    // const url = `http://localhost:8000/prediction11?model_name=${modelName}`; // 모델 이름에 따른 URL
-
-    try {
-        const response = await fetch(url);
-        const chartData = await response.json();
-
-        // 차트 업데이트 로직
-        drawChart(chartData); // `drawChart` 함수를 차트 데이터와 함께 호출하여 차트를 업데이트
-    } catch (error) {
-        console.error('Error updating chart data:', error);
-    }
-}
-
 function loadModelInfo() {
     var modelName = document.getElementById("modelSelect").value;
     if(modelName) {
@@ -43,7 +28,9 @@ function loadModelInfo() {
             });
             document.getElementById("modelInfo").style.display = "grid";
             
-            updateChartData(modelName);
+            window.drawChart(modelName);
+            
+            updateProgressData(modelName);
         })
         .catch(error => {
             console.error('Error_model info:', error);
@@ -54,4 +41,28 @@ function loadModelInfo() {
                 span.style.display = "none";
             });
     }
+}
+
+function updateProgressData(modelName) {
+    fetch(`http://localhost:8000/progress-data/${modelName}`)
+    .then(response => response.json())
+    .then(data => {
+        const progressContainer = document.querySelector('.prediction-calculation');
+        progressContainer.innerHTML = '<h1 class="font-size:4 color:base-6 font-weight:600">예측 산출 가중치</h1>'; // 기존 내용을 제거하고 타이틀 추가
+        data.forEach(progress => {
+            const progressBarHTML = `
+                <div class="progress-title">${progress.title}</div>
+                <div class="progress-bar horizontal">
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: ${progress.value}%"></div>
+                    </div>
+                </div>
+                <span class="progress-value">${progress.value}%</span>
+            `;
+            progressContainer.innerHTML += progressBarHTML; // 각 가중치 정보로 프로그레스바 추가
+        });
+    })
+    .catch(error => {
+        console.error('Error_progress data:', error);
+    });
 }

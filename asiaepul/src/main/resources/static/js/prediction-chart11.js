@@ -101,6 +101,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 	    
 	    window.addEventListener('resize', myChart.resize);
     }
-    drawChart();
+    window.drawChart = drawChart; // drawChart 함수를 window 객체에 할당하여 전역에서 접근 가능
  
 });
+
+async function updateChartData(modelName) {
+    const url = `http://localhost:8000/prediction11?model_name=${modelName}`; // 모델 이름에 따른 URL
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) { // HTTP 상태 코드가 2xx가 아니면 에러로 간주
+            throw new Error('Network response was not ok.'); // 커스텀 에러 메시지와 함께 예외를 발생시킵니다.
+        }
+        const chartData = await response.json();
+
+        // 차트 업데이트 로직
+        drawChart(chartData); // `drawChart` 함수를 차트 데이터와 함께 호출하여 차트를 업데이트
+    } catch (error) {
+        console.error('Error updating chart data:', error);
+        alert("차트 데이터를 불러오는 데 실패했습니다. 자세한 오류를 콘솔에서 확인하세요.");
+    }
+}
