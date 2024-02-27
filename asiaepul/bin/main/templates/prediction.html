@@ -14,11 +14,12 @@
     <link href="/css/components/header.css" rel="stylesheet" type="text/css">
     <link href="/css/components/prediction.css" rel="stylesheet" type="text/css">
     
+    <link href="/css/selectbox.css" rel="stylesheet" type="text/css">
     <link href="/css/progressbar.css" rel="stylesheet" type="text/css">
     <script src="/js/aimodel_info.js" defer></script>
     <script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js" defer></script>
     <script src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer></script>
-    <script src="/js/prediction-chart.js" defer></script>
+    <script src="/js/prediction-chart11.js" defer></script>
     <title>수요 예측</title>
 </head>
 <body>
@@ -94,23 +95,20 @@
 
             <section class="AI-apply p:3 bg-color:base-0 border-radius:2 box-shadow:0">
                 <h1 class="font-size:4 color:base-6 font-weight:600">인공지능 적용 현황</h1>
-                <select id="modelSelect" onchange="loadModelInfo()">
-				    <option value="">모델을 선택해주세요</option>
-				    <option value="CNN">CNN</option>
-				    <option value="RNN">RNN</option>
-				</select>
-                <dl class="modelInfo">
+                <dl id="modelInfo">
                     <dt class="font-size:0 color:base-4">적용된 인공지능 모델</dt>
-                    <dd class="font-size:2 color:base-8 font-weight:bold">
-                    	<span id="modelName"></span>
-                    </dd>
+    				<dd class="font-size:2 color:base-8 font-weight:bold">
+    					<select id="modelSelect" onchange="loadModelInfo()">
+				    		<option value="">모델을 선택해주세요</option>
+						</select>
+    				</dd>
                     <dt class="font-size:0 color:base-4">순위 / 실험된 모델</dt>
                     <dd class="font-size:2 color:base-8 font-weight:bold">
-                    	<span id="modelRank"></span><span id="modelTotal"></span>
+                    	<span id="modelRank" style="display: none;"></span><span id="modelTotal" style="display: none;"></span>
                    	</dd>
                     <dt class="font-size:0 color:base-4">예측 정확도</dt>
                     <dd class="font-size:2 color:base-8 font-weight:bold">
-                    	<span id="modelAccuracy"></span>
+                    	<span id="modelAccuracy" style="display: none;"></span>
                    	</dd>
                 </dl>
             </section>
@@ -134,16 +132,13 @@
 			                <div class="progress-fill" th:style="'width:' + ${data.value} + '%'"></div>
 			            </div>
 			        </div>
-                    <!-- <span class="progress-value" th:text="${data.value} + '%'"></span> -->
                     <span class="progress-value" th:text="${#numbers.formatDecimal(data.value, 1, 2)} + '%'"></span>
 			    </div>		
             </section>
-		
-		
-		
+	
             <section class="product-prediction p:3 bg-color:base-0 border-radius:2 box-shadow:0">
                 <h1 class="font-size:4 color:base-6 font-weight:600">product name</h1>
-                <div id="prediction-chart" class="position:relative w:1 h:1"></div>
+                <div id="prediction-chart11" class="position:relative w:1 h:1"></div>
             </section>
 
         </section>
