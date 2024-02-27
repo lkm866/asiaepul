@@ -335,16 +335,18 @@ async def search_products(query: str = Query(default="")):
 
     return filtered_products
 
-###################### progress Bar ######################
+############################### progress Bar ###############################
 @app.get("/progress-data")
 def get_progressData():
     return[
-        {"title" : "1 weeks ago", "value" : 88.88},
+        {"title" : "1 weeks ago", "value" : 22.88},
         {"title" : "2 weeks ago", "value" : 58.23},
         {"title" : "3 weeks ago", "value" : 72.1},
         {"title" : "4 weeks ago", "value" : 49.82},
     ]
-##########################################################
+############################################################################
+
+############################### AImodel list ###############################
 class AiModelData(BaseModel):
     name: str
     rank: Optional[int] = None
@@ -352,9 +354,14 @@ class AiModelData(BaseModel):
     accuracy: Optional[float] = None
     
 models_info = {
-    "CNN": AiModelData(name="CNN", rank=1, total_models=2, accuracy=92.5),
-    "RNN": AiModelData(name="RNN", rank=2, total_models=2, accuracy=89.3)
+    "CNN": AiModelData(name="CNN", rank=2, total_models=3, accuracy=92.5),
+    "RNN": AiModelData(name="RNN", rank=3, total_models=3, accuracy=89.3),
+    "LSTM": AiModelData(name="LSTM", rank=1, total_models=3, accuracy=95.1)
 }
+
+@app.get("/aimodel-name", response_model=List[str])
+def get_aimodel_name():
+    return list(models_info.keys())
 
 @app.get("/aimodel-info/{model_name}", response_model=AiModelData)
 def get_aimodel_info(model_name: str):
@@ -362,3 +369,88 @@ def get_aimodel_info(model_name: str):
         return models_info[model_name]
     else:
         raise HTTPException(status_code=404, detail="Model not found")
+############################################################################
+
+############################## model <> chart ##############################
+# 예측 데이터와 실제 데이터 구조 정의
+class PredictData(BaseModel):
+    categories: List[str]
+    series: List[Dict[str, List[int]]]
+
+@app.get("/prediction11", response_model=PredictData)
+async def get_sales_trend_chart_data(model_name: str = Query(None, description="The name of the AI model")):
+    dates = []
+    
+    start_date = datetime(2023, 1, 1)
+    end_date = datetime(2023, 12, 31)
+    extended_end_date = end_date + timedelta(days=40)
+
+    date = start_date
+    while date <= extended_end_date:
+        year = str(date.year)[-2:]
+        month = str(date.month).zfill(2)
+        day = str(date.day).zfill(2)
+
+        formatted_date = f"{year}.{month}.{day}"
+        dates.append(formatted_date)
+        
+        date += timedelta(days=1)
+
+    real_data = generate_real_data()
+    
+    # 모델 이름에 따라 다른 예측 데이터 생성
+    predicted_data = generate_predicted_data(model_name)
+
+    return PredictData(categories=dates, series=[
+        {'realData': real_data},
+        {'predictedData': predicted_data}
+    ])
+
+# 실제 데이터 생성 함수
+def generate_real_data():
+    data = [random.randint(80, 250) for _ in range(365)]
+    return data
+
+# 예측 데이터 생성 함수 (모델 이름에 따라 다른 데이터 생성)
+# def generate_predicted_data(model_name: Optional[str] = None):
+#     data = []
+#     length = 365 + 30  # 예측 기간 설정
+#     for _ in range(length):
+#         if model_name == "CNN":
+#             random_value = random.randint(150, 250)  # CNN 모델일 경우 더 높은 범위의 랜덤 값
+#         elif model_name == "RNN":
+#             random_value = random.randint(100, 180)  # RNN 모델일 경우 중간 범위의 랜덤 값
+#         elif model_name == "LSTM":
+#             random_value = random.randint(90, 280)  # LSTM 모델일 경우 중간 범위의 랜덤 값
+#         else:
+#             random_value = random.randint(80, 250)  # 기타 모델일 경우 넓은 범위의 랜덤 값
+#         data.append(random_value)
+#     return data
+
+def generate_predicted_data(model_name: Optional[str] = None):
+    data = []
+    length = 365 + 30  # 예측 기간 설정
+
+    # 모델에 따라 다른 패턴의 데이터 생성 로직
+    base_value = 100  # 기본 값
+    for i in range(length):
+        if model_name == "CNN":
+            # CNN 모델: 점차 증가하는 추세를 가정
+            trend_value = base_value + (i // 30) * 10  # 매달 조금씩 증가
+            random_value = random.randint(trend_value, trend_value + 50)
+        elif model_name == "RNN":
+            # RNN 모델: 일정 범위 내에서 랜덤하게 변동
+            random_value = random.randint(base_value, base_value + 100)
+        elif model_name == "LSTM":
+            # LSTM 모델: 점차 증가 후 감소하는 추세 가정
+            if i < length // 2:
+                trend_value = base_value + (i // 30) * 15  # 전반부 증가
+            else:
+                trend_value = base_value + ((length - i) // 30) * 15  # 후반부 감소
+            random_value = random.randint(trend_value, trend_value + 60)
+        else:
+            # 기타 모델: 넓은 범위 내에서 랜덤
+            random_value = random.randint(80, 250)
+
+        data.append(random_value)
+    return data
