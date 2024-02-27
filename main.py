@@ -40,7 +40,7 @@ class DataProcessor:
     def read_and_merge_data(self):
         if self.total_data is None:
             # 데이터 읽기 및 병합
-            data_frames = [pd.read_csv(f"D:\\Pulmuone Fastapi\\data\\data{i}.csv") for i in range(10)]
+            data_frames = [pd.read_csv(f"C:\\Pulmuone Fastapi\\data\\data{i}.csv") for i in range(10)]
             self.total_data = pd.concat(data_frames, ignore_index=True)
             # self.total_data['date'] = pd.to_datetime(self.total_data['date'])
             print(f"total_data: {self.total_data}")
