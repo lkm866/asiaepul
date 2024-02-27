@@ -1,0 +1,13 @@
+select {
+	padding: 0 5px 5px 10px;
+	border: 0;
+	border-bottom: 1px solid currentcolor; 
+	font-weight: bold;
+	letter-spacing: 3px;
+	border-radius: 0;
+	font-size: 14px;
+	
+	&:focus, &:active {
+		border-bottom-color: white;
+	}
+}
