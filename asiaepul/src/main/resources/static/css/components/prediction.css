@@ -1,0 +1,225 @@
+.prediction-section {
+    display: grid;
+    grid-template-columns: 0.4fr 621px 621px;
+    grid-template-rows: 250px 530px;
+    gap: 25px;
+
+    margin: 25px auto 0 auto;
+}
+
+
+.prediction-section
+    .prediction-list {
+        width: 572px;
+        height: 777px;
+
+        grid-column: 1;
+    }
+
+.prediction-section
+    .AI-apply {
+        min-width: 376px;
+        height: 222px;
+
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+.prediction-section
+    .analysis-select {
+        min-width: 376px;
+        height: 222px;
+
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+.prediction-section
+    .product-prediction {
+        min-width: 852px;
+        max-width: 1235px;
+        height: 478px;
+
+        grid-column: 2 / span 3;
+        grid-row: 2;
+    }
+
+
+/*============ 검색창 ============*/
+.search-bar{
+    margin-top: 30px;
+}
+
+.search-bar
+    .search-text {
+        padding-left: 40px;
+        width: 380px;
+        height: 44px;
+        border: 1px solid var(--color-base-3);
+        border-radius: var(--radius-1);
+        font-size: var(--font-size-1);
+    }
+    
+.search-bar
+    .search-text::placeholder {
+        color: var(--color-base-3);
+        font-weight: bold;
+    }
+
+.search-bar
+    .search-input {
+        cursor: pointer;
+    }
+
+.search-bar
+    button {
+        top: 10px;
+        left: 10px;
+    }
+
+/*============ 제품 리스트 ============*/
+.product-list {
+    width: 540px;
+    height: 30px;
+
+    margin-top: 40px;
+}
+
+.product-list 
+    .title {
+        border-bottom: 2px solid var(--color-base-2);
+    }
+
+.product-list
+    .product-name {
+        width: 50%;
+        padding: 12px 25px;
+    }
+    
+.product-list
+	.contents
+		.product {
+			height: 56px;
+		}
+
+.product-list
+    .demand {
+        width: 30%;
+    }
+
+
+.product-list
+	.variance{
+        width: 20%;
+    }
+
+.product-list
+    .title
+        .icon-filter {
+            position: relative;
+            top: 5px;
+            left: 5px;
+        }
+
+.product-list
+    .contents
+        .product:hover {
+            background-color: rgba(126, 126, 126, 0.08);
+        }
+.product-list
+    .contents
+        .product.clicked:hover {
+            background-color: var(--color-accent-1);
+        }
+        
+/* 상태 변경 클래스 */
+.clicked {
+    background-color: var(--color-accent-1);
+}
+.non-clicked {
+    background-color: var(--color-base-0);
+}
+
+
+/* 인공지능 적용 현황 */
+.prediction-section
+    .AI-apply
+        dl {
+            display: grid;
+            align-items: center;
+            grid-template-columns: 0.5fr 1fr;
+            grid-template-rows: 25px 25px 25px;
+            gap: 30px;
+
+            margin: 32px 70px;
+        }
+
+        
+/* 팝업창 */
+.popup-container {
+    position: fixed;
+  	top: 395px;
+  	left: 205px;
+    transform: translate(-50%, -50%);
+    /*background-color: rgba(0, 0, 0, 0.5);  배경색을 반투명하게 설정 */
+    z-index: 9999; /* 다른 요소들보다 위에 나타나도록 설정 */
+    display: none; /* 초기에는 숨김 상태로 설정 */
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--radius-2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+}
+
+.popup-contents {
+	height: 250px;
+	margin: 16px 0;
+	overflow-y: auto;
+}
+
+.popup-contents
+	.content {
+		padding: 4px;
+		border: 0.5px solid var(--color-base-2);
+		
+		text-align: center;
+	}
+.popup-contents
+	.content:hover {
+		background-color: rgba(126, 126, 126, 0.08);
+	}
+	
+.popup-container
+	.icon-search {
+		top: 7px;
+		left: 5px;
+	}
+	
+.popup-container
+	.popup-close {
+		display: inline-block;
+		padding: 8px;
+		background-color: var(--color-main-2);
+		border-radius: var(--radius-2);
+		border: none;
+	    cursor: pointer;
+	    
+	    position: relative;
+		left: 235px;
+	    
+	   	font-size: var(--font-size-0);
+	   	color: var(--color-base-0);
+	}
+
+.popup-container
+	.search-text {
+		padding-top: 3px;
+		padding-left: 30px;
+        width: 250px;
+        height: 30px;
+        border: 1px solid var(--color-base-3);
+        border-radius: var(--radius-1);
+        font-size: var(--font-size-0);
+	}
