@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%; /* 컨테이너의 너비를 명시적으로 설정 */
+    width: 100%;
     margin: 25px 0 25px 0;
 }
 
@@ -34,7 +34,7 @@
 
 .progress-bar {
     flex-grow: 1; /* 프로그레스바가 가능한 많은 공간을 차지하도록 설정 */
-    display: flex; /* progress-bar 내부의 정렬을 위해 필요 */
+    display: flex; /* progress-bar 내부의 정렬을 위해 필요 *//
 }
 
 .progress-track {

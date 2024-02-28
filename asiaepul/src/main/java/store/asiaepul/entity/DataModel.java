@@ -1,7 +1,5 @@
 package store.asiaepul.entity;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,12 +14,12 @@ public class DataModel {
 	private String product;
 	private String mart;
 	private String peakTime;
-	private List<ProgressData> progressData;
+//	private List<ProgressData> progressData;
 	
-	@Getter
-	@Setter
-	public static class ProgressData {
-		private String title;
-		private float value;
-	}
+//	@Getter
+//	@Setter
+//	public static class ProgressData {
+//		private String title;
+//		private float value;
+//	}
 }

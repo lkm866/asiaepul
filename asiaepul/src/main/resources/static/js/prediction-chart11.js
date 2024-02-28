@@ -8,9 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     async function drawChart(modelName) {
 		// FastAPI 판매량 증감 추이 url
-		// const url = 'http://localhost:8000/prediction11';
 		const url = `http://localhost:8000/prediction11?model_name=${modelName}`;
-		//const url = `http://localhost:8000/prediction11/${modelName}`;
 		
 		const response = await fetch(url);
 		const chartData = await response.json();
