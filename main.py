@@ -8,11 +8,6 @@ from pydantic import BaseModel
 
 import random
 
-import asyncio
-
-
-# from prisma import Prisma
-
 app = FastAPI()
 
 origins = [
@@ -42,7 +37,6 @@ class DataProcessor:
             # 데이터 읽기 및 병합
             data_frames = [pd.read_csv(f"C:\\Pulmuone Fastapi\\data\\data{i}.csv") for i in range(10)]
             self.total_data = pd.concat(data_frames, ignore_index=True)
-            # self.total_data['date'] = pd.to_datetime(self.total_data['date'])
             print(f"total_data: {self.total_data}")
             print("=================")
         return self.total_data
@@ -99,7 +93,6 @@ class DataProcessor:
         end_time = (pd.to_datetime(f'{peak_hour}:00:00') + pd.Timedelta(hours=1)).strftime('%H:%M')
         peak_time = f"{start_time} ~ {end_time}"
         return peak_time
-
 
 data_processor = DataProcessor()
 
